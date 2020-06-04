@@ -1,0 +1,8 @@
+'sea1m-monthly,'lsib4-ctd-shallow-seatemp-30-day-average,'offline,'( 1 366),'DRASTIC-LOW=(15 17),'VERY-LOW=(17 19),'LOW=(19 21),'SOMEWHAT-LOW=(21 24),'AVERAGE=(24 29),'SOMEWHAT-HIGH=(29 29.8),'HIGH=(29.8 30.2),'VERY-HIGH=(30.2 30.6),'DRASTIC-HIGH=(30.6 32)
+'mwsst,'lsib4-amsre-mwsst,'online,'( 1 366),'DRASTIC-LOW=(15 17),'VERY-LOW=(17 19),'LOW=(19 21),'SOMEWHAT-LOW=(21 24),'AVERAGE=(24 29.8),'SOMEWHAT-HIGH=(29.8 30),'HIGH=(30 30.2),'VERY-HIGH=(30.2 30.6),'DRASTIC-HIGH=(30.6 32)
+'bleaching-seatemp,'lsib4-ctd-deep-seatemp,'offline,'( 1 366),'AVERAGE=(15 29.8),'HIGH=(29.8 30.8),'VERY-HIGH=(30.8 31.8),'DRASTIC-HIGH=(31.8 33)
+'tide1m,'lsib4-ctd-deep-idepth,'test,'( 1 366),'DRASTIC-LOW=(9.0 9.4),'VERY-LOW=(9.4 10.0),'LOW=(10.0 11.0),'SOMEWHAT-LOW=(11.0 11.5),'AVERAGE=(11.5 12.0),'SOMEWHAT-HIGH=(12.0 12.5),'HIGH=(12.5 13.0),'VERY-HIGH=(13.0 14.0),'DRASTIC-HIGH=(14.0 15.0)
+'windsp,'lsib4-wind1-speed,'offline,'( 1 366),'DRASTIC-LOW=(0 2),'VERY-LOW=(2 4),'LOW=(4 7),'SOMEWHAT-LOW=(7 10),'AVERAGE=(10 21),'SOMEWHAT-HIGH=(21 33),'HIGH=(33 40),'VERY-HIGH=(40 64),'DRASTIC-HIGH=(64 100)
+'windsp-3day,'lsib4-wind1-speed-3-day-average,'offline,'( 1 366),'DRASTIC-LOW=(2 3),'VERY-LOW=(3 5),'LOW=(5 7),'SOMEWHAT-LOW=(7 10),'AVERAGE=(10 17),'SOMEWHAT-HIGH=(17 22),'HIGH=(22 25),'VERY-HIGH=(25 30),'DRASTIC-HIGH=(30 50)
+'salin-groundt,'lsib4-ct-groundt-salinity,'online,'( 1 366),'CONNECTED=(15 42)
+'seatemp-groundt,'lsib4-ct-groundt-seatemp,'online,'( 1 366),'CONNECTED=(5 38)

@@ -1,0 +1,9 @@
+pyknow==1.7.0
+frozendict==1.2  #pyknow requirement
+schema==0.6.7  #pyknow requirement
+numpy==1.16.4
+pandas==0.24.2
+python-dateutil==2.8.0  #pandas requirement
+pytz==2019.1  #pandas requirement
+six==1.12.0  #pandas requirement
+

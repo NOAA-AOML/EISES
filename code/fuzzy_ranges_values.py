@@ -4,13 +4,14 @@
 ####also stores corresponding string names of fuzzy values
 
 __author__= "Madison.Soden"
-__date__= "Tue Aug 07, 2018  01:29PM"
+__date__= "Thu Sep 20, 2018  04:29PM"
 __license__= "NA?"
 __email__= "madison.soden@gmail.com"
 __status__= "Production"
 
 import datetime
 
+#Fuzzy Intensities 
 standardfuzzy= ['dLow', 'vLow', 'Low', 'sLow', 'average', 'sHigh', 'High', 'vHigh', 'dHigh']
 directionfuzzy= ['n-ne', 'ne-ene', 'ene-ese', 'ese-sse', 'sse-ssw', 'ssw-wsw', 'wsw-w', 'w-nw', 'nw-n']
 shorefuzzy= ['onshore', 'downshore', 'offshore', 'upshore']
@@ -18,44 +19,69 @@ spawningfuzzy= ['toolow', 'conductive', 'toohigh']
 sevenfuzzy= ['dLow', 'vLow', 'Low', 'average', 'High', 'vHigh', 'dHigh']
 
 ranges= {}
-ranges['mlrf1']= {}
 
-ranges['mlrf1']['parsurf']= [[ 0, 50, 100, 300, 500, 700, 800, 1100, 1300, 1600], standardfuzzy]
+ranges['mlrf1']=  {}
+#Original ranges
+#ranges['mlrf1']['seandbc']= [[ 15, 17, 19, 21, 24, 29, 30, 31, 31.66, 32.5], standardfuzzy]
+#ranges['mlrf1']['seandbcM']= [[ 15, 17, 19, 21, 24, 29, 30.4, 31, 32, 34], standardfuzzy]
+#ranges['mlrf1']['windsp']= [[ 0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
+#ranges['mlrf1']['windsp3day']= [[ 2, 3, 5, 7, 10, 17, 22, 25, 30, 50], standardfuzzy]
+#ranges['mlrf1']['tide1m']= []
+#MatLab Ranges
+ranges['mlrf1']['seandbc']= [[ 15, 17, 19, 21, 24, 29, 30.00, 31.00, 31.66, 32.50], standardfuzzy]
+ranges['mlrf1']['seandbcM']= [[ 15, 17, 19, 21, 24, 29, 29.90, 30.70, 30.83, 31.00], standardfuzzy]
+ranges['mlrf1']['windsp']= [[ 0, 00.20, 00.58, 04.34, 10, 21, 33, 40, 64, 100], standardfuzzy]
+ranges['mlrf1']['windsp3day']= [[ 00.70, 01.70, 03.60, 06.30, 10, 17, 22, 25, 30, 50], standardfuzzy]
 ranges['mlrf1']['tide1m']= []
-ranges['mlrf1']['seandbc']= [[ 15, 17, 19, 21, 24, 29, 30, 31, 31.66, 32.5], standardfuzzy]
-ranges['mlrf1']['sea1m']= [[ 15, 17, 19, 21, 24, 30.1, 30.2, 30.4, 30.8, 32.1], standardfuzzy]
-ranges['mlrf1']['curveB']= []
-ranges['mlrf1']['sea1mM']= []
-ranges['mlrf1']['seandbcM']= [[ 15, 17, 19, 21, 24, 29, 30.4, 31, 32, 34], standardfuzzy]
-ranges['mlrf1']['windsp3day']= []
-ranges['mlrf1']['airt']= [[ 5, 17, 19, 21, 22, 28, 29, 30, 31, 32], standardfuzzy]
-ranges['mlrf1']['dew']= [[ 15, 17, 19, 21, 22, 28, 29, 30, 31, 32], standardfuzzy]
-ranges['mlrf1']['winddir']= [[ 0, 40, 80, 120, 160, 200, 240, 280, 320, 361], directionfuzzy]
-ranges['mlrf1']['windsp']= [[ 0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
-ranges['mlrf1']['windgu']= [[ 0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
-ranges['mlrf1']['barom']= [[ 970, 990, 1000, 1005, 1010, 1015, 1020, 1025, 1030, 1035], standardfuzzy]
-ranges['mlrf1']['surfbarom']= [[ 980, 990, 100, 1005, 1010, 1020, 1025, 1030, 1035, 1040], standardfuzzy]
-ranges['mlrf1']['salin1m']= [[ 30, 31, 32, 33, 34, 36, 36.5, 37, 37.5, 38], standardfuzzy]
-ranges['mlrf1']['samiPCO2']= [[ 200, 250, 300, 350, 400, 420, 450, 500, 550, 600], standardfuzzy]
-ranges['mlrf1']['par1m']= [[ 0, 50, 100, 200, 400, 500, 600, 700, 800, 900], standardfuzzy]
-ranges['mlrf1']['seandbc1D']= [[ 15, 17, 19, 21, 24, 29, 31.4, 32, 33, 34], standardfuzzy]
-ranges['mlrf1']['winddir2']= [[ 0, 40, 80, 120, 160, 200, 240, 280, 320, 361], directionfuzzy]
-ranges['mlrf1']['windsp2']= [[ 0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
-ranges['mlrf1']['windgu2']= [[ 0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
-ranges['mlrf1']['windsp3D']= [[ 2, 3, 5, 7, 10, 17, 22, 25, 30, 50], standardfuzzy]
-ranges['mlrf1']['windsp7D']= [[ 3, 5, 10, 13, 15, 19, 23, 26, 30, 50], standardfuzzy]
-ranges['mlrf1']['ekmandir7D']= [[ 0, 90, 180,270, 360], shorefuzzy]
-ranges['mlrf1']['SseaT']= [[ 15, 24.5, 27.5, 34], spawningfuzzy]
-ranges['mlrf1']['BseaT']= [[ 8, 12, 14, 16, 30.4, 31.4, 32.4, 34], sevenfuzzy]
-ranges['mlrf1']['seandbcV']= [[ 0.02, 0.03, 0.04, 0.05, 0.1, 0.35, 0.4, 0.5, 0.7, 1.5], standardfuzzy]
-ranges['mlrf1']['mwsst']= [[ 15, 17, 19, 21, 24, 29.8, 30, 30.2, 30.6, 32], standardfuzzy]
-ranges['mlrf1']['airtV']= [[ 0.04, 0.07, 0.1, 0.2, 0.4, 1.0, 1.5, 2.0, 2.5, 4.0], standardfuzzy]
-ranges['mlrf1']['photoAccum']= [[ 100, 200, 250, 300, 330, 400, 420, 440, 500, 600], standardfuzzy]
-ranges['mlrf1']['satChlorA']= [[ 0.01, 0.1, 0.2, 0.5, 0.7, 1.2, 1.4, 2, 4, 6], standardfuzzy]
-ranges['mlrf1']['surfcurUmin']= [[ -300, -230, -160, -100, -50, 30, 60, 90, 120, 200], standardfuzzy]
 
+ranges['fwyf1']= {}
+#Original Ranges
+#ranges['fwyf1']['seandbc']= [[15, 17, 19, 21, 24, 29, 30, 31, 32, 34], standardfuzzy]
+#ranges['fwyf1']['seandbcM']= [[15, 17, 19, 21, 24, 29, 30.4, 30.9, 31.4, 33], standardfuzzy]
+#ranges['fwyf1']['windsp']= [[0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
+#ranges['fwyf1']['windsp3day']= [[2, 3, 5, 7, 10, 17, 22, 25, 30, 50], standardfuzzy]
+#ranges['fwyf1']['tide1m']= []
+#MatLab Ranges
+ranges['fwyf1']['seandbc']= [[ 15, 17, 19, 21, 24, 29, 29.80, 31.00, 31.80, 32.5], standardfuzzy]
+ranges['fwyf1']['seandbcM']= [[15, 17, 19, 21, 24, 29, 29.65, 30.60, 30.75, 31.50], standardfuzzy]
+ranges['fwyf1']['windsp']= [[0, 00.20, 1.70, 05.70, 10, 21, 33, 40, 64, 100], standardfuzzy]
+ranges['fwyf1']['windsp3day']= [[00.70, 04.40, 05.40, 07.90, 10, 17, 22, 25, 30, 50], standardfuzzy]
+ranges['fwyf1']['tide1m']= []
+
+ranges['smkf1'] = {}
+#Original Ranges
+#ranges['smkf1']['seandbc']= [[16.8, 22.7, 24.1, 25, 25.3, 30.5, 31.9, 32.4, 33, 34], standardfuzzy]
+#ranges['smkf1']['seandbcM']= [[15, 17, 19, 21, 24, 29.5, 30.9, 31.5, 32, 34], standardfuzzy]
+#ranges['smkf1']['windsp']= [[0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
+#ranges['smkf1']['windsp3day']= [[2, 3, 5, 7, 10, 17, 22, 25, 30, 50], standardfuzzy]
+#ranges['smkf1']['tide1m']= [[9.0, 9.4, 10.0, 11.0, 11.5, 12.0, 12.5, 13.0, 14.0, 15.0], standardfuzzy]
+#MatLab Ranges
+ranges['smkf1']['seandbc']= [[16.8, 22.7, 24.1, 25, 25.3, 30.00, 30.30, 31.90, 33.58, 34.50], standardfuzzy]
+ranges['smkf1']['seandbcM']= [[15, 17, 19, 21, 24, 29.5, 30.23, 31.16, 31.28, 32.00], standardfuzzy]
+ranges['smkf1']['windsp']= [[00.00, 00.20, 00.65, 04.70, 10, 21, 33, 40, 64, 100], standardfuzzy]
+ranges['smkf1']['windsp3day']= [[00.70, 01.25, 03.80, 06.66, 10, 17, 22, 25, 30, 50], standardfuzzy]
+#ranges['smkf1']['tide1m']= [[-1.75, -1.06, -0.60, 00.10, 11.5, 12.0, 12.5, 13.0, 14.0, 15.0], standardfuzzy]
+
+ranges['sanf1']= {}
+#Original Ranges
+#ranges['sanf1']['seandbc']= [[15, 17, 19, 21, 24, 29, 30, 31, 32, 34], standardfuzzy]
+#ranges['sanf1']['seandbcM']= [[15, 17, 19, 21, 24, 29, 30.4, 31, 32, 34], standardfuzzy]
+#ranges['sanf1']['windsp']= [[0, 2, 4, 7, 10, 21, 33, 40, 64, 100], standardfuzzy]
+#ranges['sanf1']['windsp3day']= []
+#ranges['sanf1']['tide1m']= [[8.7, 8.9, 9.1, 9.3, 9.5, 10.5, 10.7, 10.9, 11.1, 11.5], standardfuzzy]
+#MatLab Ranges
+ranges['sanf1']['seandbc']= [[15, 17, 19, 21, 24, 29, 30.00, 31.25, 32.00, 33.00], standardfuzzy]
+ranges['sanf1']['seandbcM']= [[15, 17, 19, 21, 24, 29, 29.87, 30.65, 30.88, 31.00], standardfuzzy]
+ranges['sanf1']['windsp']= [[00.00, 00.20, 01.00, 04.53, 10, 21, 33, 40, 64, 100], standardfuzzy]
+ranges['sanf1']['windsp3day']= [[00.70, 02.36, 03.55, 06.25, 10, 17, 22, 25, 30, 50], standardfuzzy]
+#ranges['sanf1']['tide1m']= [[8.7, 8.9, 9.1, 9.3, 9.5, 10.5, 10.7, 10.9, 11.1, 11.5], standardfuzzy]
+
+
+##Fuzzy Times
 standardtime= ['even', 'midn', 'pdaw', 'dawn', 'morn', 'midd', 'psun', 'suns']
 quartertime= ['nite', 'dayb', 'aftn', 'dayl', 'all']
 
 times= {}
-times['mlrf1']= [[ 0, 3, 6, 9, 12, 15, 18, 21, 24], standardtime]
+times['mlrf1']= {}
+times['mlrf1']['standard_time']= [[ 0, 3, 6, 9, 12, 15, 18, 21, 24], standardtime]
+times['mlrf1']['local_midnight']= ['0500']

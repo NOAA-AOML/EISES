@@ -4,7 +4,7 @@
 #### fact factories to process
 
 __author__= "Madison.Soden"
-__date__= "Thu Aug 02, 2018  03:10PM"
+__date__= "Thu Sep 27, 2018  06:32PM"
 __license__= "NA?"
 __email__= "madison.soden@gmail.com"
 __status__= "Production"
@@ -14,37 +14,27 @@ import json
 import datetime
 import numpy as np
 from .dataframe_averaging import * 
-from IPython import embed
+import configParameters as config
 
-def main(filename):
+def main( filename):
     ###########################################################
     # 1.PARSING txt file 
     ###########################################################
 
-    with open('../data/mlrf1_insitu_data/'+ filename+'.txt', 'r') as fin:
+    with open(config.data+'/data/'+ filename+'.txt', 'r') as fin:
         data = fin.read().splitlines(True)
-    header= data[0]
-    units= data[1]
-    data=data[2:]
-    
     ##Parsing units and header
+    header= data[0]
     header= header[:-1]
     headerp= header.split(' ')
     headerp= list(filter(None, headerp))
-    #fix name discontinuity between years
-    for i in range(len(headerp)):
-        if(headerp[i]=='BAR'):
-            headerp[i]= 'PRES'
-        if(headerp[i]=='WD'):
-            headerp[i]= 'WDIR'
+    h = headerp
 
-    units= units[:-1]
-    unitsp= units.split(' ')
-    unitsp= list(filter(None, unitsp))
-
-    ##initializing  data frame with header and units
-    unitsp=[unitsp]
-    df= pd.DataFrame(unitsp, columns=headerp)
+    ##initializing   data frame with header and units
+    if(data[1][3].isdigit()):
+        data=data[1:]
+    else:
+        data=data[2:]
 
     ##parsing the rest of data into properly formatted lists
     datal= len(data)
@@ -56,39 +46,60 @@ def main(filename):
         datap= list(filter(None, datap))
         data[i]= datap
         i= i+1
-
-    df1= pd.DataFrame(data, columns=headerp)
-    df= df.append(df1)
+    
+    df= pd.DataFrame(data, columns=h)
     df = df.reset_index(drop=True)
 
+    #fix name discontinuity between years
+    for i in range(len(headerp)):
+        if(headerp[i]=='BAR'):
+            headerp[i]='PRES'
+            df = df.rename(index=str, columns={'BAR':'PRES'})
+        if(headerp[i]=='WD'):
+            headerp[i]='WDIR'
+            df = df.rename(index=str, columns={'WD':'WDIR'})
+        if(headerp[i]=='YY'):
+            headerp[i]='YYYY'
+            df = df.rename(index=str, columns={'YY':'YYYY'})
+        if(headerp[i]=='#YY'):
+            headerp[i]='YYYY'
+            df = df.rename(index=str, columns={'#YY':'YYYY'})
+        if(headerp[i]=='PTDY'):
+            del headerp[i]
+            df = df.drop(['PTDY'], axis=1)
+            break
+    
+    
     #################################################################
     # 2. CLEANING AND CONVERTING DATA FRAME
    #################################################################
 
-    #converting all strings in data frame into ints of floats
-    for column in list(df):
-        df[column][1:]= pd.to_numeric(df[column][1:])
-
     #creating a datetime column
     df['datetime']= np.nan
-    for index in list(df.index.values)[1:]:
+
+    #converting all strings in data frame into ints of floats
+    df = df.apply(pd.to_numeric, errors='coerce', downcast='float')
+    df['YYYY'] = df['YYYY'].astype(int)
+    df['MM'] = df['MM'].astype(int)
+    df['DD'] = df['DD'].astype(int)
+    df['hh'] = df['hh'].astype(int)
+    l = range(len(df.index.values))
+    li = list(df.index.values)
+
+    for ind in l:
         #translate 2 digit years into four digit years
-        year= df.iat[index, 0]
+        year= df.iat[ind, 0]
         if(year< 60):
             year= year +2000
         elif(year< 100):
             year= year+1900
-        #create datetime
-        currdatetime= datetime.datetime(year, #column name = "YY"
-                                        df.iat[index, 1], #column name = 'MM'
-                                        df.iat[index, 2], #column name = 'DD'
-                                        df.iat[index, 3], #column name = 'hh'
-                                        0, #column name = 'mm'
-                                        0)
-        df.at[index, 'datetime']= currdatetime
 
-    #setting dummy value for units row
-    df.at[0, 'datetime']= datetime.datetime(1111, 1, 1, 1, 1, 1)
+        #create datetime
+        currdatetime= datetime.datetime(year, df.iat[ind, 1], df.iat[ind, 2], df.iat[ind, 3], 0, 0)
+        df.at[li[ind], 'datetime']= currdatetime
+
+    #removing duplicate date times
+    df.drop_duplicates(subset= 'datetime', keep= 'last', inplace= True)
 
 
     #re indexing df by datetime
@@ -101,7 +112,7 @@ def main(filename):
                 'hh': ['hour', 'hours', np.nan],
                 'mm': [ 'minuet', 'minuets', np.nan],
                 'WDIR': ['Wind Direction', 'degrees "T"', 999],
-                'WSPD': ['Wind Speed', 'm/s', 99.0],
+                'WSPD': ['Wind Speed', 'knots', 99.0],
                 'GST': ['Wind Gust', 'm/s', 99.0],
                 'WVHT': ['Wave Height', 'm', 99.00],
                 'DPD': ['Dominant Wave Period', 'sec', 99.00],
@@ -116,11 +127,11 @@ def main(filename):
 
 
     ##adding appropriate Nan values to replace dummy values in time series
-    for column in range(len(headerp)):
-        for index in list(df.index.values):
-            if(df.iat[df.index.get_loc(index), column] ==
-                    namedict[headerp[column]][2]):
-                df.at[index, headerp[column]]= np.nan
+    for c in range(len(headerp)):
+        for ind in list(df.index.values):
+            if(df.iat[df.index.get_loc(ind), c] ==
+                    namedict[headerp[c]][2]):
+                df.at[ind, headerp[c]]= np.nan
 
     #create hourly time series with no gaps
     df = cleanDataframe( df)
@@ -131,22 +142,31 @@ def main(filename):
     #drop extra datetime info columns now that information is stored in index
     df= removeExtraDateTime( df)
 
+    #ipdb.set_trace()
+    #convert WSPD from m/s to knots/s 
+    df= convert_MS_to_Knots( df)
+    #ipdb.set_trace()
+
     #create 3 hour mean time series
     ##use every third column when accessing means
-    df= append3Mean( 'ATMP', df)
-    df= append3Mean('WTMP', df)
-    df= append3Mean('PRES', df)
-    df= append3Mean('GST', df)
-    df= append3Mean('WSPD', df)
-    df=  append3Mean('WDIR', df)
-
+    df= append_3H_Mean( 'ATMP', df)
+    df= append_3H_Mean('WTMP', df)
+    df= append_3H_Mean('PRES', df)
+    df= append_3H_Mean('GST', df)
+    df= append_3H_Mean('WSPD', df)
+    df=  append_3H_Mean('WDIR', df)
+    if 'TIDE' in headerp:
+        df= append_3H_Mean('TIDE', df)
+    else:
+        df["TIDE"] = np.nan
+    df= append_3D_Mean('WSPD', df)
+    df= append_30D_Mean('WTMP', df)
     #################################################################
     # 3. PUTTING DATA FRAME INTO JSON FILE
     #################################################################
-
     ##Creating json file
     jsondf= df.to_json(orient='split')
-    with open('../data/mlrf1_insitu_data/'+filename+'.json', 'w') as f:
+    with open(config.data+'/data/'+filename+'.json', 'w') as f:
         f.write(jsondf)
 
 #TO READ JSON string file
